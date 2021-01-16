@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Список товаров</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<div class="container mt-5">
+    <div th:each="el : ${productsList}" class="alert alert-info mt-2">
+        <h3 th:text="${el.name}"/>
+        <p th:text="${el.description}"/>
+        <a th:href="'/product/' + ${el.id}" class="btn btn-warning">Редактировать<a/><br><br>
+            <a th:href="'/product/' + ${el.id}" class="btn btn-warning">Удалить<a/>
+    </div>
+</div>
+<footer th:insert="blocks/footer :: footer"></footer>
+</body>
+</html>
