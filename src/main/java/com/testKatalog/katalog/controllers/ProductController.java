@@ -6,8 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
+import java.util.Optional;
 
 @Controller
 public class ProductController {
@@ -30,6 +34,35 @@ public class ProductController {
     public String productPostAdd(@RequestParam String name, @RequestParam String description, Model model){   //Request-получение формы из html файла blog-add
         ProductsList productsList = new ProductsList(name,description);
         productsListRepository.save(productsList);
+        return "redirect:/product";
+    }
+
+    @GetMapping("/product/{id}/edit")
+    public String productEdit(@PathVariable(value = "id") long id, Model model) {
+        if(!productsListRepository.existsById(id)) {
+            return "redirect:/product";
+        }
+
+        Optional<ProductsList> productsList = productsListRepository.findById(id);
+        ArrayList<ProductsList> res = new ArrayList<>();
+        productsList.ifPresent(res::add);
+        model.addAttribute("productList", res);
+        return "product-edit";
+    }
+
+    @PostMapping("/product/{id}/edit")
+    public String productPostUpdate(@PathVariable(value = "id") long id, @RequestParam String name, @RequestParam String description, Model model){
+        ProductsList productsList = productsListRepository.findById(id).orElseThrow();
+        productsList.setName(name);
+        productsList.setDescription(description);
+        productsListRepository.save(productsList);
+        return "redirect:/product";
+    }
+
+    @PostMapping("/product/{id}/remove")
+    public String productPostDelete(@PathVariable(value = "id") long id, Model model){
+        ProductsList productsList = productsListRepository.findById(id).orElseThrow();
+        productsListRepository.delete(productsList);
         return "redirect:/product";
     }
 

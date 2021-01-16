@@ -11,8 +11,9 @@
     <div th:each="el : ${productsList}" class="alert alert-info mt-2">
         <h3 th:text="${el.name}"/>
         <p th:text="${el.description}"/>
-        <a th:href="'/product/' + ${el.id}" class="btn btn-warning">Редактировать<a/><br><br>
-            <a th:href="'/product/' + ${el.id}" class="btn btn-warning">Удалить<a/>
+        <a th:href="'/product/' + ${el.id} + '/edit'" class="btn btn-warning">Редактировать</a><br><br>
+            <form th:action="'/product/' + ${el.id} + '/remove'" method="post">
+                <button class="btn btn-warning" type="submit">Удалить</button>
     </div>
 </div>
 <footer th:insert="blocks/footer :: footer"></footer>
