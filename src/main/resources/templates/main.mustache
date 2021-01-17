@@ -1,0 +1,16 @@
+<html>
+<body>
+<div>Список сообщений</div>
+<form method="post" action="filter">
+    <input type="text" name="filter">
+    <button type="submit">Найти</button>
+</form>
+{{#productsLists}}
+    <div>
+        <b>{{id}}</b>
+        <span>{{description}}</span>
+        <i>{{name}}</i>
+    </div>
+{{/productsLists}}
+</body>
+</html>
